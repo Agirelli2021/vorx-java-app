@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                   ./jenkins/build/mvn.sh mvn -B -DskipTests clean package'
+                   ./jenkins/build/mvn.sh mvn -B -DskipTests clean package
                    ./jenkins/build/build.sh
                 '''
             }
@@ -26,6 +26,13 @@ pipeline {
             steps {
                 sh './jenkins/deploy/deploy.sh'
             }
+        }
+    }
+    post {
+        always {
+            echo 'Limpando diretorios'
+            sh './jenkins/build/mvn.sh mvn clean'
+	    deleteDir()
         }
     }
 }
